@@ -19,13 +19,15 @@ def parseText(html):
      b=BeautifulSoup(r.text)
      return b.select('div.usertext-body')[1].text
      
-class Crawler(object):
-     def __init__(self.start_url):
+class Crawler(object):-
+     def __init__(self.start_url,storage_dir):
          self.start_url = start_url
-     
+         self.storage_dir = storage_dir
+          
      @staticmethod
      def _make_absolute_url(url):
           return 'http://reddit.com'+url
+     
      @staticmethod
      def _next_url(url):
 
@@ -40,7 +42,7 @@ class Crawler(object):
             post_links = [Crawler.make_absolute_url(link['href'] for link in all_posts_links]
             for post_link in post_links:
                 text= parseText(downloadUrl(post_link))
-                stored_text_file_name=
+                stored_text_file_name= os.path.join(self.storage_dir, 
             next_page_url = b.find('a',attrs={'rel' : 'next'})['href']
             logging.debug("First post is {}".format(post_links[0]))
             current_page_url = next_page_url
