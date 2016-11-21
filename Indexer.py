@@ -8,7 +8,7 @@ class Indexer(object):
 		self.doc_count = 0			
 
 	#assumes that add_document() is never called twice for a document
-	# assumes that a document has a unique URL
+	#assumes that a document has a unique URL
 	def add_document(self,url, parsed_text):
 		self.doc_count +=1
 		assert url not in self.url_to_id
@@ -29,13 +29,13 @@ class Indexer(object):
 
 	
 def main():
-	parser = argparse.ArgumentParser(description='Index https://www.reddit.com/r/learnprogramming/')
+	parser = argparse.ArgumentParser(description='Index https://www.reddit.com/r/pythonforengineers/')
 	parser.add_argument("--stored_documents", dest = "stored_documents")
 	parser.add_argument("--index_dir", dest = index_dir")
 	args = parser.parse_args()
 	
 		
-#are we involing this from cli
+
 if __name__ == "__main__": 
 	main()
 	
