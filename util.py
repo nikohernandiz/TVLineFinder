@@ -3,15 +3,13 @@ import logging
 
 def downloadRedditUrl(url):
 	print "downloadRedditUrl(): Downloading url: {}".format(url)
-	#assert url.startswith('https://www.reddit.com/r/learnprogramming/')
-	
   
 	headers = {
-    		'User-Agent': 'Searching Reddit bot version 1.0',
+    		'TVLineFinder searching...
 	}
 	r = requests.get(url,headers = headers)
 	if r.status_code != 200:
-		raise Exception("Non-OK status code: {}".format(r.status_code))
+		raise Exception("Error: {}".format(r.status_code))
 	return r.text	
 
 #Find the TV Line in post
