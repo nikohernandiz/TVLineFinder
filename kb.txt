@@ -1,0 +1,8 @@
+{
+"Do you think this is a game?:"Crenshaw-Episode 1.1",
+"If Pam knows then everyone knows because of Pam's huge mouth.:"Sterling Archer-Episode 1.1",
+"Johnny Bench called.:"Sterling Archer-Episode 1.1",
+"No, I think Jenga is a game.:"Sterling Archer-Episode 1.1",
+"No, just half of one! The other half would have really missed you.:"Sterling Archer-Episode 1.1",
+"The thought of me dead gives you an erection?:"Mallory Archer-Episode 1.1"
+}
