@@ -1,5 +1,6 @@
 {
 "Do you think this is a game?:"Crenshaw-Episode 1.1",
+"Do you want ants? Because that's how you get ants.":"Sterling Archer-Episode 1.1",
 "If Pam knows then everyone knows because of Pam's huge mouth.:"Sterling Archer-Episode 1.1",
 "Johnny Bench called.:"Sterling Archer-Episode 1.1",
 "No, I think Jenga is a game.:"Sterling Archer-Episode 1.1",
