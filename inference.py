@@ -11,8 +11,8 @@ APP_ID = ""
 APP_SECRET = ""
 APP_URI = ""
 APP_REFRESH = ""
-# https://www.reddit.com/comments/3cm1p8/how_to_make_your_bot_use_oauth2/
-USERAGENT = ""
+
+USERAGENT = "whoslineisthatArcher 0.1"
 #This is a short description of what the bot does. For example "/u/GoldenSights' Newsletter bot"
 SUBREDDIT = "GoldTesting"
 #This is the sub or list of subs to scan for new posts. For a single sub, use "sub1". For multiple subreddits, use "sub1+sub2+sub3+..."
@@ -21,7 +21,7 @@ COMMENTHEADER = "This is at the top of the comment"
 COMMENTFOOTER = "This is at the bottom of the comment"
 #These can be blank if you don't want them.
 
-DICTFILE = 'snakes.txt'
+DICTFILE = 'kb.txt'
 #The file with the Keys/Values
 
 RESULTFORM = "[_key_](_value_)"
