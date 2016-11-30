@@ -11,7 +11,7 @@ APP_SECRET = ""
 APP_URI = ""
 APP_REFRESH = ""
 
-USERAGENT = "whoslineisthatArcher 0.2 /u/ceffocoyote"
+USERAGENT = "whoslineisthatArcher 0.12 /u/ceffocoyote"
 #This is a short description of what the bot does. For example "/u/GoldenSights' Newsletter bot"
 SUBREDDIT = "pythonforengineers"
 #This is the sub or list of subs to scan for new posts. For a single sub, use "sub1". For multiple subreddits, use "sub1+sub2+sub3+..."
