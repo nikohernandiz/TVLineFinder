@@ -12,9 +12,9 @@ APP_URI = ""
 APP_REFRESH = ""
 
 USERAGENT = "whoslineisthatArcher 0.12 /u/ceffocoyote"
-#This is a short description of what the bot does. For example "/u/GoldenSights' Newsletter bot"
+#This uniquely identifies the bot and helps prevent it from being recognized as a spambot
 SUBREDDIT = "pythonforengineers"
-#This is the sub or list of subs to scan for new posts. For a single sub, use "sub1". For multiple subreddits, use "sub1+sub2+sub3+..."
+
 
 COMMENTHEADER = "I found a tv line in that comment"
 COMMENTFOOTER = "Call me when you want to identify more lines!"
