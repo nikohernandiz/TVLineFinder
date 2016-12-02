@@ -14,40 +14,19 @@ APP_REFRESH = ""
 USERAGENT = "whoslineisthatArcher 0.12 /u/ceffocoyote"
 #This uniquely identifies the bot and helps prevent it from being recognized as a spambot
 SUBREDDIT = "pythonforengineers"
-
-
-COMMENTHEADER = "I found a tv line in that comment"
-COMMENTFOOTER = "Call me when you want to identify more lines!"
-#These can be blank if you don't want them.
-
-DICTFILE = 'kb.txt'
-
-RESULTFORM = "[_key_](_value_)"
-#This is the form that the result will take
-#You may use _key_ and _value_ to inject the key/value from the dict.
-#This preset will create a link where the text is the snake name and the url is the wiki link
-#You may delete one or both of these injectors.
-
-KEYAUTHORS = []
-# These are the names of the authors you are looking for
-# The bot will only reply to authors on this list
-# Keep it empty to allow anybody.
-
-MULTIPLE_MATCHES = True
-# If True, the comment will respond to multiple keywords within the comment.
-# Using snakes.txt as an example, True means that we will link multiple snake URLs if
-# the comment contained multiple snake names.
-# If False, only keep the first generated response. Because dictionaries are unordered,
-# there is no guarantee which one will be picked.
-
 LEVENMODE = True
 #If this is True it will use a function that is slow but can find misspelled keys
 #If this is False it will use a simple function that is very fast but can only find keys which are spelled exactly
 
+
+DICTFILE = 'kb.txt'
+RESULTFORM = "[_key_](_value_)"
+KEYAUTHORS = []
+MULTIPLE_MATCHES = True
 MAXPOSTS = 100
-#This is how many posts you want to retrieve all at once. PRAW can download 100 at a time.
 WAIT = 30
-#This is how many seconds you will wait between cycles. The bot is completely inactive during this time.
+COMMENTHEADER = "I found a tv line in that comment"
+COMMENTFOOTER = "Call me when you want to identify more lines!"
 
 
 
@@ -66,7 +45,6 @@ with open(DICTFILE,'r') as f:
 sql = sqlite3.connect('sql.db')
 print('Loaded SQL Database')
 cur = sql.cursor()
-
 cur.execute('CREATE TABLE IF NOT EXISTS oldposts(ID TEXT)')
 cur.execute('CREATE INDEX IF NOT EXISTS oldpost_index ON oldposts(id)')
 print('Loaded Completed table')
