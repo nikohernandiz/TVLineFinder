@@ -6,8 +6,8 @@ import time
 import traceback
 
 
-APP_ID = ""
-APP_SECRET = ""
+APP_ID = "sNJ0ODPHsl6sNw"
+APP_SECRET = "2d8tpkojQIQ5UwnGWMGfvP4ukk0"
 APP_URI = ""
 APP_REFRESH = ""
 
