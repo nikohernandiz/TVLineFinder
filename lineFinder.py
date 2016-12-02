@@ -9,7 +9,7 @@ import traceback
 APP_ID = "sNJ0ODPHsl6sNw"
 APP_SECRET = "2d8tpkojQIQ5UwnGWMGfvP4ukk0"
 APP_URI = ""
-APP_REFRESH = ""
+APP_REFRESH = "30"
 
 USERAGENT = "whoslineisthatArcher 0.12 /u/ceffocoyote"
 #This uniquely identifies the bot and helps prevent it from being recognized as a spambot
