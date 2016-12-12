@@ -19,7 +19,7 @@ LEVENMODE = True
 #If this is False it will use a simple function that is very fast but can only find keys which are spelled exactly
 
 
-DICTFILE = 'kb.txt'
+SCRIPTFILE = 'kb.txt'
 RESULTFORM = "[_key_](_value_)"
 KEYAUTHORS = []
 MULTIPLE_MATCHES = True
@@ -39,7 +39,7 @@ except ImportError:
     pass
 
 
-with open(DICTFILE,'r') as f:
+with open(SCRIPTFILE,'r') as f:
     DICT = json.loads(f.read())
 
 sql = sqlite3.connect('sql.db')
