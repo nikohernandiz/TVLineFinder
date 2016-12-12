@@ -183,7 +183,7 @@ def replydict():
 #This prevents Reddit from thinking the AI is a spambot
 while True:
     try:
-        replydict()
+        tvlinefinder()
     except Exception as e:
         traceback.print_exc()
     print('Running again in %d seconds \n' % WAIT)
