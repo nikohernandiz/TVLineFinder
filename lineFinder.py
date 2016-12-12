@@ -20,7 +20,7 @@ LEVENMODE = True
 
 
 SCRIPTFILE = 'kb.txt'
-RESULTFORM = "[_key_](_value_)"
+RESULTFORM = "_key_ _value_"
 KEYAUTHORS = []
 MULTIPLE_MATCHES = True
 MAXPOSTS = 100
