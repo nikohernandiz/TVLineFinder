@@ -1,10 +1,10 @@
-import json
+
 import praw
 import random
 import sqlite3
 import time
 import traceback
-
+import json
 
 APP_ID = "sNJ0ODPHsl6sNw"
 APP_SECRET = "2d8tpkojQIQ5UwnGWMGfvP4ukk0"
