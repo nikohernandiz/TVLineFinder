@@ -1,32 +1,52 @@
-
-import praw
-import random
 import sqlite3
 import time
 import traceback
+import praw
+import random
 import json
 
 APP_ID = "sNJ0ODPHsl6sNw"
 APP_SECRET = "2d8tpkojQIQ5UwnGWMGfvP4ukk0"
-APP_URI = ""
-APP_REFRESH = "30"
+APP_URI = "https://127.0.0.1:65010/authorize_callback"
+APP_REFRESH = "60"
 
-USERAGENT = "whoslineisthatArcher 0.12 /u/ceffocoyote"
-#This uniquely identifies the bot and helps prevent it from being recognized as a spambot
+USERAGENT = "whoslineisthatArcher 0.2 /u/ceffocoyote"
+#This is a short description of what the bot does. For example "/u/GoldenSights' Newsletter bot"
 SUBREDDIT = "pythonforengineers"
+#This is the sub or list of subs to scan for new posts. For a single sub, use "sub1". For multiple subreddits, use "sub1+sub2+sub3+..."
+
+COMMENTHEADER = "I found a tv line in that comment"
+COMMENTFOOTER = "Call me when you want to identify more lines!"
+#These can be blank if you don't want them.
+
+DICTFILE = 'kb.txt'
+
+RESULTFORM = (TVquote+"  "+TVsource)
+#This is the form that the result will take
+#You may use _key_ and _value_ to inject the key/value from the dict.
+#This preset will create a link where the text is the snake name and the url is the wiki link
+#You may delete one or both of these injectors.
+
+KEYAUTHORS = []
+# These are the names of the authors you are looking for
+# The bot will only reply to authors on this list
+# Keep it empty to allow anybody.
+
+MULTIPLE_MATCHES = True
+# If True, the comment will respond to multiple keywords within the comment.
+# Using snakes.txt as an example, True means that we will link multiple snake URLs if
+# the comment contained multiple snake names.
+# If False, only keep the first generated response. Because dictionaries are unordered,
+# there is no guarantee which one will be picked.
+
 LEVENMODE = True
 #If this is True it will use a function that is slow but can find misspelled keys
 #If this is False it will use a simple function that is very fast but can only find keys which are spelled exactly
 
-
-SCRIPTFILE = 'kb.txt'
-RESULTFORM = "_key_ _value_"
-KEYAUTHORS = []
-MULTIPLE_MATCHES = True
 MAXPOSTS = 100
+#This is how many posts you want to retrieve all at once. PRAW can download 100 at a time.
 WAIT = 30
-COMMENTHEADER = "I found a tv line in that comment"
-COMMENTFOOTER = "Call me when you want to identify more lines!"
+#This is how many seconds you will wait between cycles. The bot is completely inactive during this time.
 
 
 
@@ -39,12 +59,13 @@ except ImportError:
     pass
 
 
-with open(SCRIPTFILE,'r') as f:
+with open(DICTFILE,'r') as f:
     DICT = json.loads(f.read())
 
 sql = sqlite3.connect('sql.db')
 print('Loaded SQL Database')
 cur = sql.cursor()
+
 cur.execute('CREATE TABLE IF NOT EXISTS oldposts(ID TEXT)')
 cur.execute('CREATE INDEX IF NOT EXISTS oldpost_index ON oldposts(id)')
 print('Loaded Completed table')
@@ -87,7 +108,7 @@ def levenshtein(s1, s2):
 def findsuper(comment, tolerance= 3):
 #checks the knowledge base for any tv lines in the users comments with levenshtein for spelling
     list = []
-    used = []
+    checked = []
     for itemname in DICT:
         itemlength = len(itemname.split())
         pos = 0
@@ -99,11 +120,11 @@ def findsuper(comment, tolerance= 3):
                 gramjoin = ' '.join(gram)
                 lev = levenshtein(itemname, gramjoin)
                 if lev <= tolerance:
-                    if itemname not in used:
-                        used.append(itemname)
+                    if itemname not in checked:
+                        checked.append(itemname)
                         list = RESULTFORM
-                        list = list.replace('_key_', itemname)
-                        list = list.replace('_value_', get_response(itemname))
+                        list = list.replace('TVquote', itemname)
+                        list = list.replace('TVsource', get_response(itemname))
                         list.append(list)
                         if MULTIPLE_MATCHES is False:
                             return list
@@ -114,14 +135,14 @@ def findsuper(comment, tolerance= 3):
                 end = True
     return list
 
-def findsimple(comment):
+def quicksearch(comment):
 #checks the kb simply, quotes must not have spelling errors
     list = []
     for itemname in DICT:
         if itemname.lower() in comment.lower():
             list = RESULTFORM
-            list = list.replace('_key_', itemname)
-            list = list.replace('_value_', get_response(itemname))
+            list = list.replace('TVquote', itemname)
+            list = list.replace('TVsource', get_response(itemname))
             list.append(list)
             if MULTIPLE_MATCHES is False:
                 return list
@@ -133,7 +154,7 @@ def get_response(key):
         return random.choice(value)
     return value
 
-def replydict():
+def ie():
     print('Searching '+ SUBREDDIT + '.')
     subreddit = r.get_subreddit(SUBREDDIT)
     posts = subreddit.get_comments(limit=MAXPOSTS)
@@ -165,7 +186,7 @@ def replydict():
         if LEVENMODE is True:
             results = findsuper(pbody)
         else:
-            results = findsimple(pbody)
+            results = quicksearch(pbody)
 
         if len(results) == 0:
             continue
@@ -183,7 +204,7 @@ def replydict():
 #This prevents Reddit from thinking the AI is a spambot
 while True:
     try:
-        tvlinefinder()
+        ie()
     except Exception as e:
         traceback.print_exc()
     print('Running again in %d seconds \n' % WAIT)
