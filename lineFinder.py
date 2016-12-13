@@ -5,8 +5,7 @@ import praw
 import random
 import json
 
-APP_ID = "sNJ0ODPHsl6sNw"
-APP_SECRET = "2d8tpkojQIQ5UwnGWMGfvP4ukk0"
+
 APP_URI = "https://127.0.0.1:65010/authorize_callback"
 APP_REFRESH = "60"
 
