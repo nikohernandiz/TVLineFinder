@@ -5,7 +5,6 @@ import praw
 import random
 import json
 
-
 APP_URI = "https://127.0.0.1:65010/authorize_callback"
 APP_REFRESH = "60"
 
@@ -14,9 +13,6 @@ USERAGENT = "whoslineisthatArcher 0.2 /u/ceffocoyote"
 SUBREDDIT = "pythonforengineers"
 #This is the sub or list of subs to scan for new posts. For a single sub, use "sub1". For multiple subreddits, use "sub1+sub2+sub3+..."
 
-COMMENTHEADER = "I found a tv line in that comment"
-COMMENTFOOTER = "Call me when you want to identify more lines!"
-#These can be blank if you don't want them.
 
 DICTFILE = 'kb.txt'
 
@@ -44,8 +40,6 @@ LEVENMODE = True
 
 MAXPOSTS = 100
 #This is how many posts you want to retrieve all at once. PRAW can download 100 at a time.
-WAIT = 30
-#This is how many seconds you will wait between cycles. The bot is completely inactive during this time.
 
 
 
@@ -189,11 +183,9 @@ def ie():
 
         if len(results) == 0:
             continue
-
-        newcomment = COMMENTHEADER
+        
         newcomment += '\n\n' + '\n\n'.join(results) + '\n\n'
-        newcomment += COMMENTFOOTER
-
+        
         note = 'Replying to {id} by {author} with {count} items'
         note = note.format(id=pid, author=pauthor, count=len(results))
         print(note)
@@ -206,6 +198,5 @@ while True:
         ie()
     except Exception as e:
         traceback.print_exc()
-    print('Running again in %d seconds \n' % WAIT)
     sql.commit()
-    time.sleep(WAIT)
+    time.sleep(60)
