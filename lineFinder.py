@@ -15,9 +15,7 @@ except ImportError:
     Print("Import Failed, make sure configuration files and crawler are in same directory")
     pass
 	
-
-
-
+#data for Reddit
 USERAGENT = "whoslineisthatArcher 0.2 /u/ceffocoyote"
 SUBREDDIT = "pythonforengineers"
 CURRENT_URL = "http://www.imdb.com/title/tt1486217/quotes"
@@ -32,19 +30,18 @@ APP_SECRET = config.password
 APP_URI = "https://127.0.0.1:65010/authorize_callback"
 APP_REFRESH = "60"
 
+#checks quote dictionary
 with open(DICTFILE,'r') as f:
     DICT = json.loads(f.read())
 #Moves list from .txt to .db for queries
 sql = sqlite3.connect('sql.db')
 print('Loaded SQL Database')
 cur = sql.cursor()
-
 cur.execute('CREATE TABLE IF NOT EXISTS oldposts(ID TEXT)')
 cur.execute('CREATE INDEX IF NOT EXISTS oldpost_index ON oldposts(id)')
 print('Loaded Completed table')
-
 sql.commit()
-
+#Begin crawling Reddit
 r = praw.Reddit(USERAGENT)
 r.set_oauth_app_info(APP_ID, APP_SECRET, APP_URI)
 r.refresh_access_information(APP_REFRESH)
@@ -54,11 +51,10 @@ if r.has_scope('identity'):
 else:
     USERNAME = ''
 
+#calculate edit distance to determine relevant search engine results
 def levenshtein(s1, s2):
-
     if len(s1) < len(s2):
         return levenshtein(s2, s1)
- 
     if len(s2) == 0:
         return len(s1)
     else:
@@ -71,13 +67,10 @@ def levenshtein(s1, s2):
             substitutions = previous_row[j] + (c1 != c2)
             current_row.append(min(insertions, deletions, substitutions))
         previous_row = current_row
- 
     return previous_row[-1]
 
-
-
 def typosearch(comment, tolerance= 3):
-#Levenshtein Algorithm used here for inaccurate quotes
+#this search uses Levensthein Algorithm to find mispelled quotes but can be very slow
     list = []
     checked = []
     for lineQuote in DICT:
@@ -91,6 +84,7 @@ def typosearch(comment, tolerance= 3):
                 gramjoin = ' '.join(gram)
                 lev = levenshtein(lineQuote, gramjoin)
                 if lev <= tolerance:
+		#If the quotes accurate enough and it's not in post history we do new post	
                     if lineQuote not in checked:
                         checked.append(lineQuote)
                         list = RESULTFORM
@@ -107,19 +101,19 @@ def typosearch(comment, tolerance= 3):
     return list
 
 def quicksearch(comment):
-#In case the Levenshtein search algorithm becomes problematic 
+#Checks the knowledge base for quotes and source information
     list = []
     for lineQuote in DICT:
         if lineQuote.lower() in comment.lower():
             list = RESULTFORM
             list = list.replace('TVquote', lineQuote)
-            list = list.replace('TVsource', get_response(lineQuote))
+            list = list.replace('TVsource', getLine(lineQuote))
             list.append(list)
             if MULTIPLE_MATCHES is False:
                 return list
     return list
-
-def get_response(key):
+#Identifies the right line in the dictionary 
+def getLine(key):
     value = DICT[key]
     if isinstance(value, list):
         return random.choice(value)
@@ -132,8 +126,8 @@ def TVlineFinder():
     for post in posts:
         results = []
         pid = post.id
-
-        if re.search("!whoselineisthat", submission.title, re.IGNORECASE):
+        #checks comments for trigger phrase
+        if re.search("whoselineisthat!", submission.title, re.IGNORECASE):
             continue
         try:
             pauthor = post.author.name.lower()
@@ -150,7 +144,6 @@ def TVlineFinder():
 
         cur.execute('INSERT INTO oldposts VALUES(?)', [pid])
         sql.commit()
-		#Checks users comment body for TVlines
         pb = post.body.lower()
         results = typosearch(pb)
         #results = quicksearch(pb)
@@ -160,15 +153,12 @@ def TVlineFinder():
 
         newcomment = 'I check where tv quotes come from and I found atleast one in that parent comment'
         newcomment += '\n\n' + '\n\n'.join(results) + '\n\n'
-        newcomment += 'Call me when you want to identify more lines!'
-
         note = 'Replying to {id} by {author} with {count} items'
         note = note.format(id=pid, author=pauthor, count=len(results))
         print(note)
-
         post.reply(newcomment)
 
-#This prevents Reddit from thinking the AI is a spambot
+#This prevents Reddit from thinking the AI is a spambot by making it wait a minute to run again
 while True:
     try:
         TVlineFinder()
