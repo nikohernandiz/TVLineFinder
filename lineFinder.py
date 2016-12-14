@@ -41,17 +41,17 @@ cur.execute('CREATE TABLE IF NOT EXISTS oldposts(ID TEXT)')
 cur.execute('CREATE INDEX IF NOT EXISTS oldpost_index ON oldposts(id)')
 print('Loaded Completed table')
 sql.commit()
+
 #Begin crawling Reddit
 r = praw.Reddit(USERAGENT)
 r.set_oauth_app_info(APP_ID, APP_SECRET, APP_URI)
 r.refresh_access_information(APP_REFRESH)
-
 if r.has_scope('identity'):
     USERNAME = r.user.name.lower()
 else:
     USERNAME = ''
 
-#calculate edit distance to determine relevant search engine results
+#calculates edit distance to determine relevant search engine results
 def levenshtein(s1, s2):
     if len(s1) < len(s2):
         return levenshtein(s2, s1)
@@ -69,8 +69,8 @@ def levenshtein(s1, s2):
         previous_row = current_row
     return previous_row[-1]
 
-def typosearch(comment, tolerance= 3):
 #this search uses Levensthein Algorithm to find mispelled quotes but can be very slow
+def typosearch(comment, tolerance= 3):
     list = []
     checked = []
     for lineQuote in DICT:
@@ -100,8 +100,8 @@ def typosearch(comment, tolerance= 3):
                 end = True
     return list
 
-def quicksearch(comment):
 #Checks the knowledge base for quotes and source information
+def quicksearch(comment):
     list = []
     for lineQuote in DICT:
         if lineQuote.lower() in comment.lower():
@@ -112,6 +112,7 @@ def quicksearch(comment):
             if MULTIPLE_MATCHES is False:
                 return list
     return list
+
 #Identifies the right line in the dictionary 
 def getLine(key):
     value = DICT[key]
@@ -119,6 +120,7 @@ def getLine(key):
         return random.choice(value)
     return value
 
+#main program
 def TVlineFinder():
     print('Searching '+ SUBREDDIT + '.')
     subreddit = r.get_subreddit(SUBREDDIT)
