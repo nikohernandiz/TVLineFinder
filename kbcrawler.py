@@ -24,11 +24,12 @@ def getHTMLpage(url):
 	contents=c.read()
 	return contents
 
+#goes through html elements looking for characters and quotes
 def parsePage(show):
 	contents=getHTMLpage(show)
 	split_contents=contents.split('<h2>Cast</h2>')[1].split('\n')
 	cast_html_elements=filter(lambda x: x.find('class="character" character="name"') is not -1,split_contents)
-	filtered_elements=filter(lambda x: x.find("/company/") is -1,cast_html_elements)
+	filtered_elements=filter(lambda x: x.find("/"/") is -1,cast_html_elements)
 	chars=map(lambda x:x.split('itemprop="name"')[1][1:-7],filtered_elements)
 	return chars
 	
