@@ -29,19 +29,17 @@ def parsePage(show):
 	split_contents=contents.split('<h2>Cast</h2>')[1].split('\n')
 	cast_html_elements=filter(lambda x: x.find('class="character" character="name"') is not -1,split_contents)
 	filtered_elements=filter(lambda x: x.find("/company/") is -1,cast_html_elements)
-	cast=map(lambda x:x.split('itemprop="name"')[1][1:-7],filtered_elements)
-	return cast
+	chars=map(lambda x:x.split('itemprop="name"')[1][1:-7],filtered_elements)
+	return chars
 	
 def buildKB(N):
 	print ("KB initiating...")
-	movie_tuples=parse_SeedUrl()
-	for movie_id in range(N):
-		getCast(movie_tuples[movie_id])
+	showList = parseSource()
 	#finding the next tv show needs implementing	
 def parseSource():
 	page_contents=getHTMLpage(CURRENT_HOME)
 	split_contents=page_contents.split('\n')
 	html_elements_with_MovieNames=filter(lambda x: x.find("titleColumn") is not -1,split_contents)
 	media=map(lambda x : (x.split('"')[6][2:-17],x.split('"')[3]), html_elements_with_MovieNames)
-	return media
+	return parsePage(media)
 
