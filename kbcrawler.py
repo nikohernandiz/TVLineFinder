@@ -1,3 +1,4 @@
+from urllib.request import urlopen
 
 #ALT_URL = "https://en.wikiquote.org/wiki/Archer_(season_1)/"
 CURRENT_URL = "http://www.imdb.com/title/tt1486217/quotes/"
@@ -19,7 +20,7 @@ def main():
 #	kb.append(parseSource():)
 	
 def getHTMLpage(url):
-	c=urllib2.urlopen(url)
+	c=urlopen(url)
 	contents=c.read()
 	return contents
 
@@ -36,7 +37,7 @@ def buildKB(N):
 	movie_tuples=parse_SeedUrl()
 	for movie_id in range(N):
 		getCast(movie_tuples[movie_id])
-	#finds the the next show 	
+	#finding the next tv show needs implementing	
 def parseSource():
 	page_contents=getHTMLpage(CURRENT_HOME)
 	split_contents=page_contents.split('\n')
