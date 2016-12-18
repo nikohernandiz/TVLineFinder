@@ -155,9 +155,7 @@ def TVlineFinder():
 
         newcomment = 'I check where tv quotes come from and I found atleast one in that parent comment'
         newcomment += '\n\n' + '\n\n'.join(results) + '\n\n'
-        note = 'Replying to {id} by {author} with {count} items'
-        note = note.format(id=pid, author=pauthor, count=len(results))
-        print(note)
+
         post.reply(newcomment)
 
 #This prevents Reddit from thinking the AI is a spambot by making it wait a minute to run again
